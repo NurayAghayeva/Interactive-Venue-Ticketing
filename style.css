@@ -1,0 +1,105 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6fb;
+    color: #243047;
+}
+
+header {
+    background-color: #263b63;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+header h1 {
+    margin-bottom: 8px;
+}
+
+main {
+    display: flex;
+    gap: 20px;
+    padding: 25px;
+}
+
+.venue {
+    flex: 3;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.sidebar {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.stage {
+    background-color: #344d7a;
+    color: white;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 450px;
+    border-radius: 8px;
+}
+
+#seat-map {
+    margin-top: 30px;
+}
+
+.seat-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.seat {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    background-color: #64a88a;
+    cursor: pointer;
+}
+
+.seat:hover {
+    outline: 2px solid #243047;
+}
+
+.seat.unavailable {
+    background-color: #a5a5a5;
+    cursor: not-allowed;
+}
+
+#add-to-cart {
+    background-color: #263b63;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+#add-to-cart:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        padding: 12px;
+    }
+
+    .venue {
+        overflow-x: auto;
+    }
+}
