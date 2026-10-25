@@ -59,6 +59,12 @@ for (const section of sections) {
 // Find the seat map container
 const seatMap = document.getElementById("seat-map");
 
+const seatDetails = document.getElementById("seat-details");
+const addToCartButton = document.getElementById("add-to-cart");
+
+let selectedSeat = null;
+
+
 // Display seats on the website
 for (const section of sections) {
 
@@ -80,15 +86,24 @@ for (const section of sections) {
                 seatButton.className = "seat";
                 seatButton.type = "button";
 
+                seatButton.dataset.seatId = seat.id;
+                seatButton.setAttribute("aria-pressed", "false");
+
+
                 seatButton.title = seat.id + " | " + seat.price + " AZN";
                 seatButton.setAttribute("aria-label", seat.title || seatButton.title);
 
-                if (!seat.available) {
-                    seatButton.classList.add("unavailable");
-                    seatButton.disabled = true;
-                }
+            if (!seat.available) {
+                seatButton.classList.add("unavailable");
+                seatButton.disabled = true;
+            } else {
+                seatButton.addEventListener("click", function () {
+                    selectSeat(seat);
+                });
+            }
 
-                rowDiv.appendChild(seatButton);
+            rowDiv.appendChild(seatButton);
+
             }
         }
 
@@ -98,3 +113,39 @@ for (const section of sections) {
 
 console.log("All seats:", seats);
 console.log("Total seats:", seats.length);
+
+function selectSeat(seat) {
+
+    // Store the selected seat
+    selectedSeat = seat;
+
+    // Remove the previous selection color
+    const previousSelected = document.querySelector(".seat.selected");
+
+    if (previousSelected) {
+        previousSelected.classList.remove("selected");
+    }
+
+    // Find the clicked seat button
+    const seatButtons = document.querySelectorAll(".seat");
+
+    for (const button of seatButtons) {
+        if (button.dataset.seatId === seat.id) {
+            button.classList.add("selected");
+            button.setAttribute("aria-pressed", "true");
+        } else {
+            button.setAttribute("aria-pressed", "false");
+        }
+    }
+
+    // Display seat information
+    seatDetails.innerHTML = `
+        <p><strong>Section:</strong> ${seat.section}</p>
+        <p><strong>Row:</strong> ${seat.row}</p>
+        <p><strong>Seat:</strong> ${seat.number}</p>
+        <p><strong>Price:</strong> ${seat.price} AZN</p>
+    `;
+
+    // Enable the ADD TO CART button
+    addToCartButton.disabled = false;
+}
