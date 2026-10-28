@@ -1,4 +1,3 @@
-
 const sections = [
     {
         name: "VIP",
@@ -64,6 +63,10 @@ const addToCartButton = document.getElementById("add-to-cart");
 
 let selectedSeat = null;
 
+const cart = [];
+
+const cartItems = document.getElementById("cart-items");
+const totalElement = document.getElementById("total");
 
 // Display seats on the website
 for (const section of sections) {
@@ -114,38 +117,136 @@ for (const section of sections) {
 console.log("All seats:", seats);
 console.log("Total seats:", seats.length);
 
-function selectSeat(seat) {
 
-    // Store the selected seat
+function selectSeat(seat) {
     selectedSeat = seat;
 
-    // Remove the previous selection color
-    const previousSelected = document.querySelector(".seat.selected");
+    updateSeatColors();
+    updateSeatDetails();
+}
 
-    if (previousSelected) {
-        previousSelected.classList.remove("selected");
+
+
+function updateCart() {
+    cartItems.innerHTML = "";
+
+    let total = 0;
+
+    if (cart.length === 0) {
+        cartItems.textContent = "Your cart is empty.";
     }
 
-    // Find the clicked seat button
-    const seatButtons = document.querySelectorAll(".seat");
+    for (const seat of cart) {
+        total += seat.price;
 
-    for (const button of seatButtons) {
-        if (button.dataset.seatId === seat.id) {
+        const item = document.createElement("div");
+        item.className = "cart-item";
+
+        const label = document.createElement("span");
+        label.textContent = seat.id + " - " + seat.price + " AZN";
+
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+        removeButton.type = "button";
+
+        removeButton.addEventListener("click", function () {
+            removeFromCart(seat.id);
+        });
+
+        item.appendChild(label);
+        item.appendChild(removeButton);
+        cartItems.appendChild(item);
+    }
+
+    totalElement.textContent = total;
+}
+
+function removeFromCart(seatId) {
+    const index = cart.findIndex(function (seat) {
+        return seat.id === seatId;
+    });
+
+    if (index !== -1) {
+        cart.splice(index, 1);
+    }
+
+    updateCart();
+    updateSeatColors();
+    updateSeatDetails();
+}
+
+function updateSeatColors() {
+    const buttons = document.querySelectorAll(".seat");
+
+    for (const button of buttons) {
+        const id = button.dataset.seatId;
+
+        button.classList.remove("selected", "in-cart");
+
+        const inCart = cart.some(function (seat) {
+            return seat.id === id;
+        });
+
+        if (inCart) {
+            button.classList.add("in-cart");
+        } else if (selectedSeat && selectedSeat.id === id) {
             button.classList.add("selected");
-            button.setAttribute("aria-pressed", "true");
-        } else {
-            button.setAttribute("aria-pressed", "false");
         }
+
+        button.setAttribute(
+            "aria-pressed",
+            selectedSeat !== null && selectedSeat.id === id
+                ? "true"
+                : "false"
+        );
+    }
+}
+
+function updateSeatDetails() {
+    if (selectedSeat === null) {
+        seatDetails.textContent = "Click a seat to see its details.";
+        addToCartButton.disabled = true;
+        addToCartButton.textContent = "ADD TO CART";
+        return;
     }
 
-    // Display seat information
     seatDetails.innerHTML = `
-        <p><strong>Section:</strong> ${seat.section}</p>
-        <p><strong>Row:</strong> ${seat.row}</p>
-        <p><strong>Seat:</strong> ${seat.number}</p>
-        <p><strong>Price:</strong> ${seat.price} AZN</p>
+        <p><strong>Section:</strong> ${selectedSeat.section}</p>
+        <p><strong>Row:</strong> ${selectedSeat.row}</p>
+        <p><strong>Seat:</strong> ${selectedSeat.number}</p>
+        <p><strong>Price:</strong> ${selectedSeat.price} AZN</p>
     `;
 
-    // Enable the ADD TO CART button
-    addToCartButton.disabled = false;
+    const alreadyInCart = cart.some(function (seat) {
+        return seat.id === selectedSeat.id;
+    });
+
+    addToCartButton.disabled = alreadyInCart;
+    addToCartButton.textContent = alreadyInCart
+        ? "ALREADY IN CART"
+        : "ADD TO CART";
 }
+
+// Add selected ticket to cart
+addToCartButton.addEventListener("click", function () {
+    if (selectedSeat === null || !selectedSeat.available) {
+        return;
+    }
+
+    const alreadyInCart = cart.some(function (seat) {
+        return seat.id === selectedSeat.id;
+    });
+
+    if (alreadyInCart) {
+        return;
+    }
+
+    cart.push(selectedSeat);
+
+    updateCart();
+    updateSeatColors();
+    updateSeatDetails();
+});
+
+// Show the initial empty cart
+updateCart();

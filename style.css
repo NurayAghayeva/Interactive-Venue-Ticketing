@@ -125,3 +125,39 @@ main {
 #add-to-cart:not(:disabled):hover {
     background-color: #3b5990;
 }
+
+
+.seat.selected {
+    background-color: #e5a34b;
+    outline: 2px solid #a96b1c;
+}
+
+.seat.in-cart {
+    background-color: #6474b8;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #dddddd;
+}
+
+.cart-item span {
+    font-size: 14px;
+}
+
+.cart-item button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.cart-item button:hover {
+    background-color: #b83d39;
+}
