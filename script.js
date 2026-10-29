@@ -63,7 +63,11 @@ const addToCartButton = document.getElementById("add-to-cart");
 
 let selectedSeat = null;
 
+
 const cart = [];
+
+const STORAGE_KEY = "venueTicketCart";
+
 
 const cartItems = document.getElementById("cart-items");
 const totalElement = document.getElementById("total");
@@ -169,6 +173,7 @@ function removeFromCart(seatId) {
     if (index !== -1) {
         cart.splice(index, 1);
     }
+    saveCart();
 
     updateCart();
     updateSeatColors();
@@ -241,12 +246,62 @@ addToCartButton.addEventListener("click", function () {
         return;
     }
 
-    cart.push(selectedSeat);
+    
+cart.push(selectedSeat);
 
-    updateCart();
-    updateSeatColors();
-    updateSeatDetails();
+saveCart();
+
+updateCart();
+updateSeatColors();
+updateSeatDetails();
+
 });
 
-// Show the initial empty cart
+// Restore saved tickets when the page opens
+loadCart();
+
+// Update the cart and seat colors
 updateCart();
+updateSeatColors();
+updateSeatDetails();
+
+
+function saveCart() {
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(cart.map(seat => seat.id))
+    );
+}
+
+
+function loadCart() {
+    const savedCart = localStorage.getItem(STORAGE_KEY);
+
+    if (!savedCart) {
+        return;
+    }
+
+    try {
+        const savedIds = JSON.parse(savedCart);
+
+        if (!Array.isArray(savedIds)) {
+            return;
+        }
+
+        for (const id of savedIds) {
+            const seat = seats.find(function (item) {
+                return item.id === id;
+            });
+
+            if (
+                seat &&
+                seat.available &&
+                !cart.some(item => item.id === seat.id)
+            ) {
+                cart.push(seat);
+            }
+        }
+    } catch (error) {
+        console.error("Could not load saved cart:", error);
+    }
+}
