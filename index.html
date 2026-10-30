@@ -20,9 +20,35 @@
         <section class="venue">
             <h2>Auditorium Seating Map</h2>
 
-            <div class="stage">STAGE</div>
+            
+<div class="map-controls">
+    <div class="zoom-controls">
+        <button id="zoom-in" type="button">+ Zoom In</button>
+        <button id="zoom-out" type="button">− Zoom Out</button>
+    </div>
 
-            <div id="seat-map"></div>
+    <div class="move-controls">
+        <button id="move-up" type="button">↑</button>
+
+        <div>
+            <button id="move-left" type="button">←</button>
+            <button id="move-down" type="button">↓</button>
+            <button id="move-right" type="button">→</button>
+        </div>
+    </div>
+
+    <button id="reset-view" type="button">
+        Reset / Center View
+    </button>
+</div>
+
+<div id="map-viewport">
+    <div id="map-content">
+        <div class="stage">STAGE</div>
+        <div id="seat-map"></div>
+    </div>
+</div>
+
         </section>
 
         <aside class="sidebar">
