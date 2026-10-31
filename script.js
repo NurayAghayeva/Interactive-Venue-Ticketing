@@ -75,9 +75,16 @@ const totalElement = document.getElementById("total");
 // Display seats on the website
 for (const section of sections) {
 
-    const heading = document.createElement("h3");
-    heading.textContent = section.name;
-    seatMap.appendChild(heading);
+    
+const heading = document.createElement("h3");
+
+heading.className = "section-heading";
+
+heading.textContent =
+    section.name + " — " + section.price + " AZN";
+
+seatMap.appendChild(heading);
+
 
     for (let row = 1; row <= section.rows; row++) {
 

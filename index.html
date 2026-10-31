@@ -19,8 +19,12 @@
     <main>
         <section class="venue">
             <h2>Auditorium Seating Map</h2>
+     
+<p class="map-instructions">
+    Click an available seat to inspect its details,
+    then use ADD TO CART to reserve it in your cart.
+</p>
 
-            
 <div class="map-controls">
     <div class="zoom-controls">
         <button id="zoom-in" type="button">+ Zoom In</button>
@@ -40,6 +44,29 @@
     <button id="reset-view" type="button">
         Reset / Center View
     </button>
+</div>
+
+
+<div class="seat-legend">
+    <div class="legend-item">
+        <span class="legend-color available-color"></span>
+        <span>Available</span>
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-color selected-color"></span>
+        <span>Selected</span>
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-color cart-color"></span>
+        <span>In Cart</span>
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-color unavailable-color"></span>
+        <span>Unavailable</span>
+    </div>
 </div>
 
 <div id="map-viewport">
