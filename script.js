@@ -116,6 +116,16 @@ seatMap.appendChild(heading);
                 });
             }
 
+const middle = (section.seatsPerRow - 1) / 2;
+
+const distanceFromMiddle =
+    Math.abs(seat.number - 1 - middle) / middle;
+
+const curve = Math.pow(distanceFromMiddle, 2) * 14;
+
+seatButton.style.transform = `translateY(${curve}px)`;
+
+
             rowDiv.appendChild(seatButton);
 
             }
@@ -374,3 +384,64 @@ document.getElementById("reset-view").addEventListener("click", function () {
 
 // Set the initial view
 updateMapView();
+
+
+// Zoom with the mouse wheel
+const mapViewport = document.getElementById("map-viewport");
+
+mapViewport.addEventListener("wheel", function (event) {
+    event.preventDefault();
+
+    if (event.deltaY < 0) {
+        zoomLevel = Math.min(zoomLevel + 0.1, 2);
+    } else {
+        zoomLevel = Math.max(zoomLevel - 0.1, 0.5);
+    }
+
+    updateMapView();
+}, { passive: false });
+
+
+// Drag the auditorium map using the mouse
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+
+mapViewport.addEventListener("pointerdown", function (event) {
+    // Do not start dragging when clicking a seat
+    if (event.target.closest(".seat")) {
+        return;
+    }
+
+    if (event.button !== 0) {
+        return;
+    }
+
+    isDragging = true;
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+
+    mapViewport.setPointerCapture(event.pointerId);
+});
+
+mapViewport.addEventListener("pointermove", function (event) {
+    if (!isDragging) {
+        return;
+    }
+
+    moveX += event.clientX - dragStartX;
+    moveY += event.clientY - dragStartY;
+
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+
+    updateMapView();
+});
+
+function stopDragging() {
+    isDragging = false;
+}
+
+mapViewport.addEventListener("pointerup", stopDragging);
+mapViewport.addEventListener("pointercancel", stopDragging);
+mapViewport.addEventListener("lostpointercapture", stopDragging);

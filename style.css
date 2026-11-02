@@ -54,12 +54,21 @@ main {
     margin-top: 30px;
 }
 
+
 .seat-row {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     gap: 6px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    min-height: 42px;
 }
+
+.seat-row .seat {
+    position: relative;
+    flex-shrink: 0;
+}
+
 
 .seat {
     width: 28px;
@@ -416,4 +425,25 @@ main {
     margin: 22px 0 12px;
     padding-bottom: 8px;
     border-bottom: 1px solid #e0e5ee;
+}
+
+#map-viewport {
+    cursor: grab;
+    touch-action: none;
+}
+
+#map-viewport:active {
+    cursor: grabbing;
+}
+
+.seat {
+    cursor: pointer;
+}
+
+.seat.unavailable {
+    cursor: not-allowed;
+}
+
+#map-content {
+    transition: transform 0.15s ease;
 }
