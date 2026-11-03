@@ -447,3 +447,19 @@ main {
 #map-content {
     transition: transform 0.15s ease;
 }
+.seat-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 35px;
+    width: max-content;
+    margin: 0 auto 20px;
+}
+
+.seat-block {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+    flex-wrap: nowrap;
+}

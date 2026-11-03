@@ -2,20 +2,20 @@ const sections = [
     {
         name: "VIP",
         price: 100,
-        rows: 3,
-        seatsPerRow: 10
-    },
-    {
-        name: "Premium",
-        price: 70,
         rows: 4,
         seatsPerRow: 12
     },
     {
+        name: "Premium",
+        price: 70,
+        rows: 6,
+        seatsPerRow: 14
+    },
+    {
         name: "Standard",
         price: 40,
-        rows: 5,
-        seatsPerRow: 14
+        rows: 8,
+        seatsPerRow: 16
     }
 ];
 
@@ -75,37 +75,50 @@ const totalElement = document.getElementById("total");
 // Display seats on the website
 for (const section of sections) {
 
-    
-const heading = document.createElement("h3");
+    const heading = document.createElement("h3");
 
-heading.className = "section-heading";
+    heading.className = "section-heading";
+    heading.textContent = section.name + " — " + section.price + " AZN";
 
-heading.textContent =
-    section.name + " — " + section.price + " AZN";
-
-seatMap.appendChild(heading);
-
+    seatMap.appendChild(heading);
 
     for (let row = 1; row <= section.rows; row++) {
 
         const rowDiv = document.createElement("div");
         rowDiv.className = "seat-row";
 
-        for (const seat of seats) {
+        // Create three separate seating blocks
+        const seatBlocks = [];
 
-            if (seat.section === section.name && seat.row === row) {
+        for (let i = 0; i < 3; i++) {
+            const block = document.createElement("div");
+            block.className = "seat-block";
 
-                const seatButton = document.createElement("button");
+            seatBlocks.push(block);
+            rowDiv.appendChild(block);
+        }
 
-                seatButton.className = "seat";
-                seatButton.type = "button";
+        const rowSeats = seats.filter(function (seat) {
+            return seat.section === section.name && seat.row === row;
+        });
 
-                seatButton.dataset.seatId = seat.id;
-                seatButton.setAttribute("aria-pressed", "false");
+        // Distribute seats across the three blocks
+        rowSeats.forEach(function (seat, index) {
 
+            const blockIndex = Math.floor(index * 3 / rowSeats.length);
+            const seatButton = document.createElement("button");
 
-                seatButton.title = seat.id + " | " + seat.price + " AZN";
-                seatButton.setAttribute("aria-label", seat.title || seatButton.title);
+            seatButton.className = "seat";
+            seatButton.type = "button";
+
+            seatButton.dataset.seatId = seat.id;
+            seatButton.setAttribute("aria-pressed", "false");
+
+            seatButton.title = seat.id + " | " + seat.price + " AZN";
+            seatButton.setAttribute(
+                "aria-label",
+                seat.title || seatButton.title
+            );
 
             if (!seat.available) {
                 seatButton.classList.add("unavailable");
@@ -116,25 +129,21 @@ seatMap.appendChild(heading);
                 });
             }
 
-const middle = (section.seatsPerRow - 1) / 2;
+            const middle = (section.seatsPerRow - 1) / 2;
 
-const distanceFromMiddle =
-    Math.abs(seat.number - 1 - middle) / middle;
+            const distanceFromMiddle =
+                Math.abs(seat.number - 1 - middle) / middle;
 
-const curve = Math.pow(distanceFromMiddle, 2) * 14;
+            const curve = Math.pow(distanceFromMiddle, 2) * 14;
 
-seatButton.style.transform = `translateY(${curve}px)`;
+            seatButton.style.transform = `translateY(${curve}px)`;
 
-
-            rowDiv.appendChild(seatButton);
-
-            }
-        }
+            seatBlocks[blockIndex].appendChild(seatButton);
+        });
 
         seatMap.appendChild(rowDiv);
     }
 }
-
 console.log("All seats:", seats);
 console.log("Total seats:", seats.length);
 
