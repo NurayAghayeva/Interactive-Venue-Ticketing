@@ -463,3 +463,14 @@ main {
     gap: 5px;
     flex-wrap: nowrap;
 }
+.seat:not(.unavailable):hover {
+    filter: brightness(1.2);
+    transform: scale(1.12);
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.seat:focus-visible {
+    outline: 3px solid #222;
+    outline-offset: 3px;
+}
