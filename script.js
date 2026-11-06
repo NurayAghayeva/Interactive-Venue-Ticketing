@@ -9,13 +9,13 @@ const sections = [
         name: "Premium",
         price: 70,
         rows: 6,
-        seatsPerRow: 14
+        seatsPerRow: 15
     },
     {
         name: "Standard",
         price: 40,
         rows: 8,
-        seatsPerRow: 16
+        seatsPerRow: 18
     }
 ];
 
@@ -78,8 +78,15 @@ for (const section of sections) {
     const heading = document.createElement("h3");
 
     heading.className = "section-heading";
-    heading.textContent = section.name + " — " + section.price + " AZN";
+   const sectionLetter = {
+    VIP: "A",
+    Premium: "B",
+    Standard: "C"
+};
 
+heading.textContent =
+    sectionLetter[section.name] + " — " +
+    section.name + " — " + section.price + " AZN";
     seatMap.appendChild(heading);
 
     for (let row = 1; row <= section.rows; row++) {
@@ -132,11 +139,12 @@ for (const section of sections) {
             const middle = (section.seatsPerRow - 1) / 2;
 
             const distanceFromMiddle =
-                Math.abs(seat.number - 1 - middle) / middle;
+            Math.abs(seat.number - 1 - middle) / middle;
 
-            const curve = Math.pow(distanceFromMiddle, 2) * 14;
+            const curve = Math.pow(distanceFromMiddle, 2) * 45;
 
-            seatButton.style.transform = `translateY(${curve}px)`;
+            seatButton.style.position = "relative";
+            seatButton.style.top = `-${curve}px`;
 
             seatBlocks[blockIndex].appendChild(seatButton);
         });
@@ -417,7 +425,6 @@ let dragStartX = 0;
 let dragStartY = 0;
 
 mapViewport.addEventListener("pointerdown", function (event) {
-    // Do not start dragging when clicking a seat
     if (event.target.closest(".seat")) {
         return;
     }

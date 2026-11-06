@@ -42,12 +42,22 @@ main {
 }
 
 .stage {
-    background-color: #344d7a;
+    background: linear-gradient(180deg, #456a9e, #263b63);
     color: white;
-    padding: 15px;
-    margin: 20px auto;
-    max-width: 450px;
-    border-radius: 8px;
+    width: 450px;
+    max-width: 90%;
+    height: 90px;
+    margin: 30px auto;
+
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 3px;
 }
 
 #seat-map {
@@ -473,4 +483,23 @@ main {
 .seat:focus-visible {
     outline: 3px solid #222;
     outline-offset: 3px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-top: 35px;
+    font-size: 19px;
+    letter-spacing: 1px;
+}
+
+.seat-row {
+    margin-bottom: 18px;
+}
+
+.seat-row {
+    gap: 35px;
+}
+
+.seat-block {
+    gap: 5px;
 }
