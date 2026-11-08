@@ -1,3 +1,4 @@
+// Seat Sections
 const sections = [
     {
         name: "VIP",
@@ -32,7 +33,7 @@ const unavailableSeats = [
 // Array to store all seats
 const seats = [];
 
-// Generate seat information
+// Seat information generator
 for (const section of sections) {
 
     for (let row = 1; row <= section.rows; row++) {
@@ -155,15 +156,12 @@ heading.textContent =
 console.log("All seats:", seats);
 console.log("Total seats:", seats.length);
 
-
 function selectSeat(seat) {
     selectedSeat = seat;
 
     updateSeatColors();
     updateSeatDetails();
 }
-
-
 
 function updateCart() {
     cartItems.innerHTML = "";
@@ -280,7 +278,6 @@ addToCartButton.addEventListener("click", function () {
         return;
     }
 
-    
 cart.push(selectedSeat);
 
 saveCart();
@@ -299,14 +296,12 @@ updateCart();
 updateSeatColors();
 updateSeatDetails();
 
-
 function saveCart() {
     localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify(cart.map(seat => seat.id))
     );
 }
-
 
 function loadCart() {
     const savedCart = localStorage.getItem(STORAGE_KEY);
@@ -339,7 +334,6 @@ function loadCart() {
         console.error("Could not load saved cart:", error);
     }
 }
-
 
 // MAP NAVIGATION
 
@@ -402,7 +396,6 @@ document.getElementById("reset-view").addEventListener("click", function () {
 // Set the initial view
 updateMapView();
 
-
 // Zoom with the mouse wheel
 const mapViewport = document.getElementById("map-viewport");
 
@@ -417,7 +410,6 @@ mapViewport.addEventListener("wheel", function (event) {
 
     updateMapView();
 }, { passive: false });
-
 
 // Drag the auditorium map using the mouse
 let isDragging = false;
