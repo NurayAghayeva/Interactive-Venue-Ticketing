@@ -363,25 +363,25 @@ document.getElementById("zoom-out").addEventListener("click", function () {
 
 // Move Up
 document.getElementById("move-up").addEventListener("click", function () {
-    moveY -= 30;
+    moveY += 30;
     updateMapView();
 });
 
 // Move Down
 document.getElementById("move-down").addEventListener("click", function () {
-    moveY += 30;
+    moveY -= 30;
     updateMapView();
 });
 
 // Move Left
 document.getElementById("move-left").addEventListener("click", function () {
-    moveX -= 30;
+    moveX += 30;
     updateMapView();
 });
 
 // Move Right
 document.getElementById("move-right").addEventListener("click", function () {
-    moveX += 30;
+    moveX -= 30;
     updateMapView();
 });
 
